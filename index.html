@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画像からPDFへ変換</title>
+    <title>瞬速！画像PDFメーカー</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter font -->
@@ -11,7 +11,12 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Light gray background */
+            background: linear-gradient(135deg, #e0f2fe 0%, #bbdefb 100%); /* Subtle blue gradient background */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
         /* Custom scrollbar for image preview area */
         #image-preview-container::-webkit-scrollbar {
@@ -40,75 +45,75 @@
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl border border-gray-200">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">画像からPDFへ変換</h1>
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-[1.005]">
+        <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8 tracking-tight">瞬速！画像PDFメーカー</h1>
 
         <!-- File Upload Section -->
-        <div class="mb-6">
-            <label for="file-input" class="block text-sm font-medium text-gray-700 mb-2">
+        <div class="mb-8">
+            <label for="file-input" class="block text-lg font-semibold text-gray-700 mb-3">
                 画像をアップロード (複数選択可)
             </label>
-            <div id="drop-area" class="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-blue-400 rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 transition-colors duration-200">
+            <div id="drop-area" class="flex flex-col items-center justify-center w-full h-52 border-4 border-dashed border-blue-400 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-all duration-300 transform hover:scale-[1.01] shadow-inner text-blue-600">
                 <input type="file" id="file-input" multiple accept="image/*" class="hidden">
-                <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-16 h-16 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                 </svg>
-                <p class="mt-2 text-sm text-blue-600">ファイルをドラッグ＆ドロップするか、クリックして選択</p>
-                <p class="text-xs text-gray-500">(PNG, JPG, JPEGなどの画像ファイル)</p>
+                <p class="mt-2 text-base font-medium">ファイルをドラッグ＆ドロップするか、クリックして選択</p>
+                <p class="text-sm text-gray-500">(PNG, JPG, JPEGなどの画像ファイル)</p>
             </div>
         </div>
 
         <!-- Image Preview Section -->
-        <div id="image-preview-container" class="mb-6 p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-y-auto max-h-64">
-            <div id="image-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div id="image-preview-container" class="mb-8 p-5 border border-gray-300 rounded-xl bg-gray-50 overflow-y-auto max-h-72 shadow-inner">
+            <div id="image-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
                 <!-- Image previews will be inserted here by JavaScript -->
             </div>
-            <p id="no-images-message" class="text-center text-gray-500 mt-4">画像が選択されていません。</p>
+            <p id="no-images-message" class="text-center text-gray-500 text-base mt-4">画像が選択されていません。</p>
         </div>
 
         <!-- PDF Options Section -->
-        <div class="mb-6">
-            <label for="pdf-filename" class="block text-sm font-medium text-gray-700 mb-2">
+        <div class="mb-8">
+            <label for="pdf-filename" class="block text-lg font-semibold text-gray-700 mb-3">
                 PDFファイル名
             </label>
-            <input type="text" id="pdf-filename" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="例: MyDocument">
+            <input type="text" id="pdf-filename" class="mt-1 block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base placeholder-gray-400" placeholder="例: MyDocument">
         </div>
 
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+        <div class="mb-8">
+            <label class="block text-lg font-semibold text-gray-700 mb-3">
                 変換オプション
             </label>
-            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="conversion-option" value="single" checked class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                    <span class="ml-2 text-gray-700">複数画像を1つのPDFにまとめる</span>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-6">
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="conversion-option" value="single" checked class="form-radio h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500 transition-colors duration-200">
+                    <span class="ml-3 text-gray-700 text-base">複数画像を1つのPDFにまとめる</span>
                 </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="conversion-option" value="multiple" class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                    <span class="ml-2 text-gray-700">複数画像を連番のPDFファイルにする</span>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="conversion-option" value="multiple" class="form-radio h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500 transition-colors duration-200">
+                    <span class="ml-3 text-gray-700 text-base">複数画像を連番のPDFファイルにする</span>
                 </label>
             </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <button id="convert-button" class="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center">
+        <div class="flex flex-col sm:flex-row justify-center space-y-5 sm:space-y-0 sm:space-x-6">
+            <button id="convert-button" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300 flex items-center justify-center text-lg transform hover:-translate-y-1">
                 <span id="convert-button-text">PDFに変換してダウンロード</span>
-                <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-6 w-6 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
             </button>
-            <button id="clear-button" class="w-full sm:w-auto px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-colors duration-200">
+            <button id="clear-button" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl shadow-lg hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 focus:ring-offset-2 transition-all duration-300 text-lg transform hover:-translate-y-1">
                 全てクリア
             </button>
         </div>
 
         <!-- Message Box for alerts -->
-        <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
-            <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
-                <p id="message-text" class="text-lg font-semibold text-gray-800 mb-4"></p>
-                <button id="close-message-box" class="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">閉じる</button>
+        <div id="message-box" class="fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center z-50 hidden backdrop-blur-sm">
+            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border border-gray-200 transform scale-95 opacity-0 transition-all duration-300" id="message-box-content">
+                <p id="message-text" class="text-xl font-semibold text-gray-800 mb-6"></p>
+                <button id="close-message-box" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">閉じる</button>
             </div>
         </div>
     </div>
@@ -137,6 +142,7 @@
         const messageBox = document.getElementById('message-box');
         const messageText = document.getElementById('message-text');
         const closeMessageBox = document.getElementById('close-message-box');
+        const messageBoxContent = document.getElementById('message-box-content');
 
         // Array to store image data objects: { file: File, id: string, timestamp: number }
         let imageFiles = [];
@@ -150,13 +156,23 @@
         function showMessageBox(message) {
             messageText.textContent = message;
             messageBox.classList.remove('hidden');
+            // Animate message box in
+            setTimeout(() => {
+                messageBoxContent.classList.remove('opacity-0', 'scale-95');
+                messageBoxContent.classList.add('opacity-100', 'scale-100');
+            }, 10);
         }
 
         /**
          * Hides the custom message box.
          */
         function hideMessageBox() {
-            messageBox.classList.add('hidden');
+            // Animate message box out
+            messageBoxContent.classList.remove('opacity-100', 'scale-100');
+            messageBoxContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 300); // Match CSS transition duration
         }
 
         /**
@@ -211,7 +227,7 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const imgContainer = document.createElement('div');
-                    imgContainer.classList.add('relative', 'group', 'rounded-lg', 'overflow-hidden', 'shadow-md');
+                    imgContainer.classList.add('relative', 'group', 'rounded-lg', 'overflow-hidden', 'shadow-md', 'border', 'border-gray-200');
                     imgContainer.setAttribute('data-id', id); // Use id for consistent referencing
 
                     const img = document.createElement('img');
@@ -220,13 +236,13 @@
                     img.classList.add('w-full', 'h-28', 'object-cover', 'rounded-lg', 'transition-transform', 'duration-200', 'group-hover:scale-105');
 
                     const fileNameOverlay = document.createElement('div');
-                    fileNameOverlay.classList.add('absolute', 'bottom-0', 'left-0', 'right-0', 'bg-black', 'bg-opacity-50', 'text-white', 'text-xs', 'p-1', 'truncate', 'opacity-0', 'group-hover:opacity-100', 'transition-opacity', 'duration-200');
+                    fileNameOverlay.classList.add('absolute', 'bottom-0', 'left-0', 'right-0', 'bg-black', 'bg-opacity-60', 'text-white', 'text-xs', 'p-2', 'truncate', 'opacity-0', 'group-hover:opacity-100', 'transition-opacity', 'duration-200', 'font-medium');
                     fileNameOverlay.textContent = file.name;
 
                     // Remove button
                     const removeButton = document.createElement('button');
-                    removeButton.classList.add('absolute', 'top-1', 'right-1', 'bg-red-500', 'text-white', 'rounded-full', 'w-6', 'h-6', 'flex', 'items-center', 'justify-center', 'text-sm', 'opacity-0', 'group-hover:opacity-100', 'transition-opacity', 'duration-200', 'hover:bg-red-600');
-                    removeButton.innerHTML = '&times;'; // 'x' icon
+                    removeButton.classList.add('absolute', 'top-2', 'right-2', 'bg-red-600', 'text-white', 'rounded-full', 'w-7', 'h-7', 'flex', 'items-center', 'justify-center', 'text-sm', 'opacity-0', 'group-hover:opacity-100', 'transition-opacity', 'duration-200', 'hover:bg-red-700', 'shadow-md');
+                    removeButton.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'; // 'x' icon
                     removeButton.onclick = (event) => {
                         event.stopPropagation(); // Prevent event bubbling
                         removeImage(id); // Pass id to removeImage
@@ -361,7 +377,9 @@
                                     let yOffset = (a4Height - scaledHeight) / 2;
 
                                     // Add a new page for each image, except for the first image
-                                    if (imageFiles.indexOf(imageData) > 0) { // Check index of imageData object
+                                    // Use imageData.id to find the correct index in the sorted array
+                                    const currentIndex = imageFiles.findIndex(item => item.id === imageData.id);
+                                    if (currentIndex > 0) {
                                         doc.addPage();
                                     }
                                     doc.addImage(img.src, 'JPEG', xOffset, yOffset, scaledWidth, scaledHeight);
